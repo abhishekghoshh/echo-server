@@ -1,6 +1,7 @@
 package com.tw.ag.controller;
 
 import com.tw.ag.model.EchoResponse;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -39,6 +41,9 @@ public class EchoController {
 		logger.info("requestParams {}", requestParams);
 		logger.info("requestBody {}", requestBody);
 
+		Map<String, Object> cookiesInMap = new HashMap<>();
+		Cookie[] cookies = httpServletRequest.getCookies();
+		if (cookies != null) for (Cookie cookie : cookies) cookiesInMap.put(cookie.getName(), cookie.getValue());
 
 		return EchoResponse.builder()
 				.url(httpServletRequest.getRequestURI())
@@ -48,6 +53,7 @@ public class EchoController {
 				.requestHeaders(requestHeaders)
 				.requestParams(requestParams)
 				.requestBody(requestBody)
+				.cookies(cookiesInMap)
 				.build();
 	}
 }

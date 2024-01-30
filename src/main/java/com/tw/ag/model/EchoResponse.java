@@ -17,4 +17,5 @@ public class EchoResponse {
 	private Map<String, String> requestHeaders;
 	private Map<String, String> requestParams;
 	private Map<String, Object> requestBody;
+	private Map<String, Object> cookies;
 }
